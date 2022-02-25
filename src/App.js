@@ -2,6 +2,7 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
+  // Declare a new state variable called "list".
   const [list, setList] = useState([
     "trevor",
     "report mezz to rozzers",
@@ -14,18 +15,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Mezz and Jamie's To-do app</h1>
-      </header>
+      <Header />
+      <TodoList list={list} />
       <p>To-do</p>
-      <ul>
-        <li>{list[0]}</li>
-        <li>{list[1]}</li>
-        <li>{list[2]}</li>
-      </ul>
       <button onClick={() => clearList()}>clear all</button>
     </div>
   );
 }
+
+const Header = () => {
+  return <h1 id="Header">Mezz and Jamie's To-do app</h1>;
+};
+
+const TodoList = (props) => {
+  return (
+    <ul>
+      {props.list.map((task) => {
+        return <li key={task}>{task}</li>;
+      })}
+    </ul>
+  );
+};
 
 export default App;
