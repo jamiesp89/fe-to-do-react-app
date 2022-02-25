@@ -2,12 +2,7 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  // Declare a new state variable called "list".
-  const [list, setList] = useState([
-    "trevor",
-    "report mezz to rozzers",
-    "task 3",
-  ]);
+  const [list, setList] = useState([]);
 
   const clearList = () => {
     setList([]);
@@ -16,8 +11,9 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <p>To do</p>
       <TodoList list={list} />
-      <p>To-do</p>
+      <TaskAdder setList={setList} />
       <button onClick={() => clearList()}>clear all</button>
     </div>
   );
@@ -30,11 +26,42 @@ const Header = () => {
 const TodoList = (props) => {
   return (
     <ul>
-      {props.list.map((task) => {
-        return <li key={task}>{task}</li>;
+      {props.list.map((task, i) => {
+        return <li key={`${task}-${i}`}>{task}</li>;
       })}
     </ul>
   );
 };
 
+const TaskAdder = ({ setList }) => {
+  const [newTask, setNewTask] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setList((currentList) => {
+      return [newTask, ...currentList];
+    });
+    setNewTask("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Add a new task:
+        <input
+          value={newTask}
+          onChange={(event) => {
+            setNewTask(event.target.value);
+          }}
+        />
+      </label>
+      <button type="submit">Add task</button>
+    </form>
+  );
+};
+
 export default App;
+
+// submit button
+// handler for submit
+// update currrent todo list with newtask - setlist
